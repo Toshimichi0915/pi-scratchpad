@@ -12,6 +12,9 @@ export default function (pi: ExtensionAPI) {
     // ponytail: one pad per session; anything spawned in this process shares it
     dir = join(ROOT, ctx.sessionManager.getSessionId());
     mkdirSync(dir, { recursive: true });
+    // pi builds shell env from process.env (getShellEnv), so this reaches every
+    // bash/powershell command and `!` user commands
+    process.env.PI_SCRATCHPAD_DIR = dir;
   });
 
   pi.on("before_agent_start", (event) => {
@@ -20,7 +23,7 @@ export default function (pi: ExtensionAPI) {
       `Scratchpad directory: ${dir}\n` +
       `Always use it for temporary files (intermediate results, scripts, outputs that don't belong ` +
       `in the project) instead of /tmp or other system temp directories. It is session-specific ` +
-      `and not part of the project, so nothing written there shows up in git. Only use /tmp if ` +
-      `the user explicitly asks.`;
+      `and not part of the project, so nothing written there shows up in git. Shell commands see ` +
+      `it as $PI_SCRATCHPAD_DIR. Only use /tmp if the user explicitly asks.`;
   });
 }
