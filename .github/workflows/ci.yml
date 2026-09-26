@@ -25,6 +25,10 @@ jobs:
       contents: write
       issues: write
       pull-requests: write
+      # npm trusted publishing (OIDC): this permission is the credential.
+      # The trusted publisher configured on npmjs.com must name this file (ci.yml)
+      # and allow `npm publish`; there is no NPM_TOKEN anywhere.
+      id-token: write
     steps:
       - uses: actions/checkout@v7
         with:
@@ -33,8 +37,12 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      # npm >= 11.5.1 exchanges the OIDC token itself at publish time;
+      # @semantic-release/npm only uses OIDC for its auth check.
+      # Never set `registry-url` on setup-node: the .npmrc auth placeholder it
+      # writes shadows OIDC.
+      - run: npm install -g npm@latest
       - run: npm ci
       - run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
