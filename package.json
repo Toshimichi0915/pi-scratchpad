@@ -20,11 +20,23 @@
 	"files": [
 		"extensions"
 	],
+	"release": {
+		"branches": [
+			"main"
+		],
+		"plugins": [
+			"@semantic-release/commit-analyzer",
+			"@semantic-release/release-notes-generator",
+			"@semantic-release/npm",
+			"@semantic-release/github"
+		]
+	},
 	"peerDependencies": {
 		"@earendil-works/pi-coding-agent": "*"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.5.14"
+		"@biomejs/biome": "^2.5.14",
+		"semantic-release": "^25.0.9"
 	},
 	"scripts": {
 		"check": "biome check .",
