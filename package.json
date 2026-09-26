@@ -1,0 +1,19 @@
+{
+  "name": "pi-scratchpad",
+  "version": "0.0.0-development",
+  "description": "pi extension: a per-session scratchpad directory for temporary files, kept out of your project",
+  "type": "module",
+  "keywords": ["pi-package", "pi", "extension", "scratchpad"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Toshimichi0915/pi-scratchpad.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Toshimichi0915/pi-scratchpad/issues"
+  },
+  "homepage": "https://github.com/Toshimichi0915/pi-scratchpad#readme",
+  "files": ["extensions"],
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*"
+  }
+}
