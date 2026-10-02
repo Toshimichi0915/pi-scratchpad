@@ -19,11 +19,18 @@ export default function (pi: ExtensionAPI) {
 
 	pi.on("before_agent_start", (event) => {
 		if (!dir) return;
-		event.systemPromptOptions.sections.scratchpad =
+		const text =
 			`Scratchpad directory: ${dir}\n` +
 			`Always use it for temporary files (intermediate results, scripts, outputs that don't belong ` +
 			`in the project) instead of /tmp or other system temp directories. It is session-specific ` +
 			`and not part of the project, so nothing written there shows up in git. Shell commands see ` +
 			`it as $PI_SCRATCHPAD_DIR. Only use /tmp if the user explicitly asks.`;
+		event.systemPromptOptions.sections.scratchpad = text;
+		// An earlier before_agent_start handler (e.g. ponytail) may have returned systemPrompt,
+		// freezing the request's prompt text; later section mutations only reach the transcript.
+		// Mirror the section into the forced prompt so it still reaches the model (Pi 1.0.0+).
+		if (event.systemPromptOptions.forceSystemPrompt !== undefined) {
+			event.systemPromptOptions.forceSystemPrompt += `\n\n<scratchpad>\n${text}\n</scratchpad>`;
+		}
 	});
 }
