@@ -3,6 +3,7 @@
 	"version": "0.0.0-development",
 	"description": "pi extension: a per-session scratchpad directory for temporary files, kept out of your project",
 	"type": "module",
+	"license": "MIT",
 	"keywords": [
 		"pi-package",
 		"pi",
